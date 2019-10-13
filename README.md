@@ -10,7 +10,7 @@ Three versions of app are available in this repository
 ## Tech Stack Used
 - Python3
 - Web Application Framework - Flask
-- Frontend - Jquery, Ajax, HTML, CSS
+- Libraries - Requests, BeautifulSoup4, Jquery, Ajax, HTML, CSS, etc
 
 ### Requirements
 
@@ -21,7 +21,7 @@ Three versions of app are available in this repository
 
 ## Get Started
 
-### How to Install ( Better user Virtual env (venv) for testing this stuff )
+### How to Install ( Better use Virtual env (venv) for testing this stuff )
 
 ### 1. Use the python package manager [pip](https://pip.pypa.io/en/stable/) to install cloud_weather_app.
 
