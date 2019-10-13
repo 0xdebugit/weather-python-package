@@ -10,7 +10,7 @@ setuptools.setup(
     description="Simple Package to connect with weather.com endpoints and get quick info",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="",
+    url="https://gitlab.com/0xdebug/cloud-weather",
     packages=setuptools.find_packages(),
     classifiers=[
         'Programming Language :: Python :: 3',

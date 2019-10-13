@@ -1,8 +1,4 @@
-# Weather Application (Web crawling project from weather.com)
+# Weather Application 
 
 This is a simple application for web crawling project
-
-Hello User, this is a help documentation :
-
-base.py location_name[mandatory] date[optional] type[optional]
-base.py mumbai
+For more info visit : https://gitlab.com/0xdebug/cloud-weather
