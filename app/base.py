@@ -2,6 +2,7 @@ import requests
 import json
 import time
 import sys
+from bs4 import BeautifulSoup
 import argparse
 import re
 
@@ -10,6 +11,11 @@ api_key = 'd522aa97197fd864d36b418f39ebb323'
 url = 'https://api.weather.com'
 deg_sym = chr(176)
 latitude = longitude = 0
+
+start_time = time.time()
+
+if sys.version_info[0] < 3:
+	raise Exception("Must be using Python 3")
 
 # current info - default requested time info - daily
 def basic_observation(latitude,longitude):
@@ -23,6 +29,71 @@ def basic_observation(latitude,longitude):
 	res = ('\nObserved at : {} {} \nTemperature : {}, Feels like : {}, Desc : {}').format(cur_date,cur_time,
 		str(basic_info['temperature'])+deg_sym,str(basic_info['feelsLike'])+deg_sym,basic_info['phrase'])
 	return res
+
+# info - monthly
+def forecast(latitude,longitude):
+	res = '' 
+	query = '{}/v2/turbo/vt1dailyForecast?apiKey={}&format=json&geocode={}%2C{}&language=en-IN&units=m'.
+			format(url,api_key,latitude,longitude)
+	forecast_info = requests.get(query)
+	forecast_info_raw = forecast_info.content
+	forecast_info = json.loads(forecast_info_raw)['vt1dailyForecast']
+	forecast_info_day = json.loads(forecast_info_raw)['vt1dailyForecast']['day']
+	forecast_info_night = json.loads(forecast_info_raw)['vt1dailyForecast']['night']
+	json_dates = forecast_info['validDate']
+	json_day_phrase = forecast_info_day['phrase']
+	json_night_phrase = forecast_info_night['phrase']
+	json_day_temp = forecast_info_day['temperature']
+	json_night_temp = forecast_info_night['temperature']
+
+	for i in range(len(json_dates)):
+		if i == 0:
+			res += '-'*80+'\n'
+			res += ('{:<15}{:<5}{:<25}{:<5}{:<5}\n'.format('Date','Temp','Day','Temp','Night'))
+			res += '-'*80+'\n'
+		else:
+			res += ('{:<15}{:<5}{:<25}{:<5}{:<5}\n'.format(json_dates[i][:10],str(json_day_temp[i])+deg_sym,
+				str(json_day_phrase[i]),str(json_night_temp[i])+deg_sym,json_night_phrase[i]))
+	return res
+
+# info - hourly
+def hourly(placeid):
+	query = 'https://weather.com/en-IN/weather/hourbyhour/l/{}'.format(placeid)
+	res = requests.get(query)
+	hourly = res.content
+	soup = BeautifulSoup(hourly,'lxml')
+	table = soup.find(class_="twc-table")
+	hourlydata = []
+	val = resp = ''
+
+	cnt = 0
+	for my_table in table:
+		rows = my_table.find_all('tr', recursive=False)                
+		for row in rows:
+			hourlydata.append([])
+			cells = row.find_all(['th', 'td'])        
+			#  print(cells)
+			for cell in cells:
+				if(cell.find('span') is not None):
+					#  print(cell.find('span').text)
+					#  print(cnt)
+					val = cell.find('span').text.strip()
+					if val == '':
+						hourlydata[cnt].append('0')
+					else:
+						hourlydata[cnt].append(val)
+			cnt += 1
+	hourlydata.pop(0)
+	cnt = 0
+	for i in hourlydata:
+		if cnt == 0:
+			resp += '-'*80+'\n'
+			resp += ('{:<15}{:<25}{:<15}{:<15}\n'.format('Time','Description','Temp','Feels like'))
+			resp += '-'*80+'\n'
+		else:
+			resp += ('{:<15}{:<25}{:<15}{:<15}\n'.format(i[0],i[1],i[2],i[3]))
+		cnt +=1
+	return resp
 
 # get placeID - of city/state 
 def start(place):
@@ -76,6 +147,14 @@ if __name__ == "__main__":
 	latitude = data['latitude']
 	longitude = data['longitude']
 
-	op = basic_observation(latitude,longitude)
+	print('[+] '+place+' [+] '+fc_type)
+	if(fc_type == 'daily'):
+		op = basic_observation(latitude,longitude)
+	elif(fc_type == 'monthly'):
+		op = forecast(latitude,longitude)
+	elif(fc_type == 'hourly'):
+		op = hourly(_placeid)
+	else:
+		sys.exit('Sorry this forecast type is not available')
 
 	print(op)
