@@ -21,7 +21,7 @@ Three versions of app are available in this repository
 
 ## Get Started
 
-### How to Install
+### How to Install ( Better user Virtual env (venv) for testing this stuff )
 
 ### 1. Use the python package manager [pip](https://pip.pypa.io/en/stable/) to install cloud_weather_app.
 
