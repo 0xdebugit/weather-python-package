@@ -3,6 +3,7 @@ import json
 import time
 import sys
 import argparse
+import re
 
 alt_api_key = '9d2908c81003444ea908c81003b44ed4'
 api_key = 'd522aa97197fd864d36b418f39ebb323'
@@ -10,6 +11,18 @@ url = 'https://api.weather.com'
 deg_sym = chr(176)
 latitude = longitude = 0
 
+# current info - default requested time info - daily
+def basic_observation(latitude,longitude):
+	print('[+] Daily Information')
+	query = '{}/v2/turbo/vt1observation?apiKey={}&format=json&geocode={}%2C{}&language=en-IN&units=m'.
+			format(url,api_key,latitude,longitude)
+	basic_info = requests.get(query)
+	basic_info = basic_info.content
+	basic_info = json.loads(basic_info)['vt1observation']
+	cur_date,cur_time,time_zone = re.split('[T +]',basic_info['observationTime'])
+	res = ('\nObserved at : {} {} \nTemperature : {}, Feels like : {}, Desc : {}').format(cur_date,cur_time,
+		str(basic_info['temperature'])+deg_sym,str(basic_info['feelsLike'])+deg_sym,basic_info['phrase'])
+	return res
 
 # get placeID - of city/state 
 def start(place):
