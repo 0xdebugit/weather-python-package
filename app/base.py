@@ -20,8 +20,8 @@ if sys.version_info[0] < 3:
 # current info - default requested time info - daily
 def basic_observation(latitude,longitude):
 	print('[+] Daily Information')
-	query = '{}/v2/turbo/vt1observation?apiKey={}&format=json&geocode={}%2C{}&language=en-IN&units=m'.
-			format(url,api_key,latitude,longitude)
+	query = '{}/v2/turbo/vt1observation?apiKey={}&format=json&geocode={}%2C{}&language=en-IN&units=m'.format(url,api_key,
+		latitude,longitude)
 	basic_info = requests.get(query)
 	basic_info = basic_info.content
 	basic_info = json.loads(basic_info)['vt1observation']
@@ -33,8 +33,8 @@ def basic_observation(latitude,longitude):
 # info - monthly
 def forecast(latitude,longitude):
 	res = '' 
-	query = '{}/v2/turbo/vt1dailyForecast?apiKey={}&format=json&geocode={}%2C{}&language=en-IN&units=m'.
-			format(url,api_key,latitude,longitude)
+	query = '{}/v2/turbo/vt1dailyForecast?apiKey={}&format=json&geocode={}%2C{}&language=en-IN&units=m'.format(url,
+		api_key,latitude,longitude)
 	forecast_info = requests.get(query)
 	forecast_info_raw = forecast_info.content
 	forecast_info = json.loads(forecast_info_raw)['vt1dailyForecast']
@@ -98,8 +98,8 @@ def hourly(placeid):
 # get placeID - of city/state 
 def start(place):
 	print('[+] Fetching ID')
-	query = '{}/v3/location/search?apiKey={}&format=json&language=en-IN&locationType=locale&query={}'.
-			format(url,api_key,place)
+	query = '{}/v3/location/search?apiKey={}&format=json&language=en-IN&locationType=locale&query={}'.format(url,
+		api_key,place)
 	res = requests.get(query)
 	resp = res.content
 	if(res.status_code == 404):
@@ -112,8 +112,7 @@ def start(place):
 # get gelocation - latitude & longitude
 def long_lat(placeId):
 	print('[+] Fetching longitude & latitude Info')
-	query = '{}/v3/location/point?apiKey={}&format=json&language=en-IN&placeid={}'.
-			format(url,api_key,placeId)
+	query = '{}/v3/location/point?apiKey={}&format=json&language=en-IN&placeid={}'.format(url,api_key,placeId)
 	res = requests.get(query)
 	resp = res.content
 	latitude = json.loads(resp)['location']['latitude']
