@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cloud_weather_app",
-    version="0.0.2",
+    version="0.0.1",
     author="Deepak Natanmai",
     description="Simple Package to connect with weather.com endpoints and get quick info",
     long_description=long_description,

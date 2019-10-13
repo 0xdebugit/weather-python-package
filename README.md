@@ -1,23 +1,33 @@
-# Weather Application 
+# Weather Application
 
-A python package to get quick info of weather
-For more info visit : https://gitlab.com/0xdebug/cloud-weather
+Used Web Crawling & Web Scraping Techniques to build this application (source : weather.com)
 
-## Get Started
+Three versions of app are available in this repository
+- CLI based app
+- app installable via pip (Compliant with PEP8)
+- web version with json api endpoints
 
-### How to Install
-
-Use the python package manager [pip](https://pip.pypa.io/en/stable/) to install cloud_weather_app.
-
-```
-pip install cloud_weather_app
-```
+## Tech Stack Used
+- Python3
+- Web Application Framework - Flask
+- Frontend - Jquery, Ajax, HTML, CSS
 
 ### Requirements
 
 - python >= 3.6
 - requests
 - beautifulsoup4
+- Flask
+
+## Get Started
+
+### How to Install
+
+### 1. Use the python package manager [pip](https://pip.pypa.io/en/stable/) to install cloud_weather_app.
+
+```
+pip install cloud_weather_app
+```
 
 ### Usage
 
@@ -89,6 +99,18 @@ Time           Description              Temp           Feels like
 17:30          Partly Cloudy            27°            29°
 18:30          Partly Cloudy            26°            28°
 ```
+
+
+## 2. Clone this repo and under /app you can run base.py through CLI
+```
+python3 base.py
+```
+More Info is given inside the help section
+
+## 3. Clone this repo and under /web you can run web.py through CLI and open localhost:5000
+
+
+
 
 ### Author
 Deepak Natanmai [gitlab.com/0xdebug](https://gitlab.com/0xdebug)
